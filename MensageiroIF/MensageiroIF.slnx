@@ -1,0 +1,4 @@
+<Solution>
+  <Project Path="../MensageiroIF.Cliente/MensageiroIF.Cliente.csproj" Id="7bc928e6-98be-43c5-84d9-954a0d32df5d" />
+  <Project Path="MensageiroIF.csproj" Id="4d283c87-5c0b-4104-9547-0ef8c0134412" />
+</Solution>
