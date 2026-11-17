@@ -44,7 +44,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AnalisadorDeProtocolo.cs" />
+    <Compile Include="ApelidoInvalidoException.cs" />
+    <Compile Include="CanalArquivo.cs" />
     <Compile Include="Conversa.cs" />
+    <Compile Include="ErroDoServidor.cs" />
+    <Compile Include="ICanalDeComunicacao.cs" />
     <Compile Include="IRepositorioDeMensagens.cs" />
     <Compile Include="Mensagem.cs" />
     <Compile Include="MensagemArquivo.cs" />
@@ -58,8 +62,10 @@
     <Compile Include="RepositorioEmArquivo.cs" />
     <Compile Include="RepositorioEmMemoria.cs" />
     <Compile Include="RepositorioFalso.cs" />
+    <Compile Include="RespostaDoServidor.cs" />
     <Compile Include="ServicoDeHistorico.cs" />
     <Compile Include="Servidor.cs" />
+    <Compile Include="SessaoDeCliente.cs" />
     <Compile Include="Usuario.cs" />
   </ItemGroup>
   <ItemGroup>

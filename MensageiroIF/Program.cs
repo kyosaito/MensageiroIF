@@ -11,7 +11,7 @@ namespace MensageiroIF
         static void Main(string[] args)
         {
             Console.WriteLine("====== AULA 04 ======");
-            
+
             List<Mensagem> historico = new List<Mensagem>();
             //historico.Add(new Mensagem("Main", DateTime.Now, "Mensagem principal"));
             historico.Add(new MensagemTexto("Flavio", "Maria", DateTime.Now, "Mensagem de texto"));
@@ -58,11 +58,11 @@ namespace MensageiroIF
                 repositorio.Guardar(CriarMensagem("Maria|Oi! Tudo ótimo!"));
                 repositorio.Guardar(CriarMensagem("João|E aí, pessoal?"));
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex.GetType().Name + ": " + ex.Message);
             }
-            
+
             Usuario remetente = new Usuario("Flavio", "Flávio Saito");
             Usuario destinatario = new Usuario("Maria", "Maria Silva");
 
@@ -80,7 +80,7 @@ namespace MensageiroIF
 
             Console.WriteLine($"Conjunto: {conjunto.Count}");
 
-            
+
             Console.WriteLine("====== AULA 11 ======");
             string teste1 = "ENVIAR|ana|bruno|2026-10-14T09:12|Bom dia";
             AnalisadorDeProtocolo analisador = new AnalisadorDeProtocolo();
@@ -128,7 +128,7 @@ namespace MensageiroIF
             {
                 Console.WriteLine(ex.GetType().Name + ": " + ex.Message);
             }
-            
+
             Console.WriteLine($"Arquivo criado e populado com mensagens.");
 
             Console.WriteLine("Mensagens no arquivo:");
@@ -139,6 +139,67 @@ namespace MensageiroIF
             }
 
 
+            Console.WriteLine("====== AULA 13 ======");
+            ICanalDeComunicacao canalFlavio = new CanalArquivo(AppContext.BaseDirectory, "flavio");
+            ICanalDeComunicacao canalServidor = new CanalArquivo(AppContext.BaseDirectory, "servidor");
+            ICanalDeComunicacao canalMaria = new CanalArquivo(AppContext.BaseDirectory, "maria");
+
+            //cliente flavio
+            try
+            {
+                canalFlavio.Enviar("servidor", "ENVIAR|flavio|maria|2026-10-14T09:12|Bom dia, Maria!");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.GetType().Name + ": " + ex.Message);
+            }
+
+            //servidor
+            try
+            {
+                var caixaServidor = canalServidor.Receber();
+                foreach (var linha in caixaServidor)
+                {
+                    canalServidor.Enviar("maria", linha);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.GetType().Name + ": " + ex.Message);
+            }
+
+            //cliente maria
+            try
+            {
+                var caixaMaria = canalMaria.Receber();
+                foreach (var linha in caixaMaria)
+                {
+                    Console.WriteLine(linha);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.GetType().Name + ": " + ex.Message);
+            }
+
+
+            Console.WriteLine("====== AULA 14 ======");
+            RepositorioEmArquivo repositorioArquivo2 = new RepositorioEmArquivo();
+            try
+            {
+                //repositorioArquivo2.Apagar();
+                repositorioArquivo2.Guardar(CriarMensagem("Flavio|Maria|Olá! Tudo bem?"));
+                repositorioArquivo2.Guardar(CriarMensagem("Maria|Flavio|Oi! Tudo ótimo!"));
+                repositorioArquivo2.Guardar(CriarMensagem("João|Flavio|E aí, pessoal?"));
+                repositorioArquivo2.Guardar(CriarMensagem("Flavio|Maria|Estudou para a prova?"));
+                repositorioArquivo2.Guardar(CriarMensagem("Maria|Flavio|Que prova?"));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.GetType().Name + ": " + ex.Message);
+            }
+            var mensagensFiltradas = repositorioArquivo2.Listar(m => m.Remetente == "Flavio");
+            Console.WriteLine($"Mensagens de Filtradas: {mensagensFiltradas.Count}");
         }
     }
 }

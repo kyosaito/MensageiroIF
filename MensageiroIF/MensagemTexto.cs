@@ -8,6 +8,7 @@ namespace MensageiroIF
 {
     public class MensagemTexto : Mensagem
     {
+        public const int LIMITE = 250; //Tamanho máximo do corpo da mensagem
         public string Destinatario { get; private set; }
         
         public MensagemTexto(string remetente, string destinatario, DateTime data, string corpo) : base(remetente, data, corpo)
@@ -22,7 +23,15 @@ namespace MensageiroIF
 
         public override string GetLinha()
         {
-            return $"ENVIAR|{Remetente}|{Destinatario}|{Data.ToString("yyyy-MM-ddTHH:mm")}|{Corpo}";
+            return $"ENVIAR|{Remetente}|{Destinatario}|{Data.ToString("yyyy-MM-ddTHH:mm:ss")}|{Corpo}";
+        }
+
+        public static void ConferirCorpo(string corpo)
+        {
+            if (string.IsNullOrWhiteSpace(corpo))
+                throw new MensagemInvalidaException($"A mensagem está vazia.");
+            if (corpo.Length > LIMITE)
+                throw new MensagemInvalidaException($"A mensagem excede o limite de {LIMITE} caracteres.");
         }
     }
 }

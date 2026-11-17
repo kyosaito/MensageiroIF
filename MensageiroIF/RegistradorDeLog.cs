@@ -6,7 +6,19 @@ using System.Threading.Tasks;
 
 namespace MensageiroIF
 {
-    internal class RegistradorDeLog
+    public class RegistradorDeLog
     {
+        public void Registrar(string texto)
+        {
+            Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] {texto}");
+        }
+
+        public void Falha(string texto)
+        {
+            ConsoleColor antes = Console.ForegroundColor;
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.WriteLine($"[{DateTime.Now:HH:mm:ss}] {texto}");
+            Console.ForegroundColor = antes;
+        }
     }
 }

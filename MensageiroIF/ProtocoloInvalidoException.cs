@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace MensageiroIF
 {
-    internal class ProtocoloInvalidoException : Exception
+    public class ProtocoloInvalidoException : Exception
     {
         public ProtocoloInvalidoException(string message) : base(message) { }
     }

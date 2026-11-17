@@ -13,10 +13,17 @@ namespace MensageiroIF
         public string Nome { get; protected set; }
         List<Usuario> contatos = new List<Usuario>();
 
+        public Usuario(string apelido)
+        {
+            ConferirApelido(apelido);
+            this.Apelido = apelido.Trim();
+        }
+
         public Usuario(string apelido, string nome)
         {
-            this.Apelido = apelido;
-            this.Nome = nome;
+            ConferirApelido(apelido);
+            this.Apelido = apelido.Trim();
+            this.Nome = string.IsNullOrWhiteSpace(nome) ? Apelido : nome.Trim();
         }
 
         public override bool Equals(object obj)
@@ -31,6 +38,19 @@ namespace MensageiroIF
         public override int GetHashCode()
         {
             return Apelido.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return Apelido;
+        }
+
+        public static void ConferirApelido(string apelido)
+        {
+            if (string.IsNullOrWhiteSpace(apelido))
+            {
+                throw new ApelidoInvalidoException("O apelido não pode ficar em branco.");
+            }
         }
     }
 }
